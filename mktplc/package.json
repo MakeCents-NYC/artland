@@ -5,12 +5,15 @@
   "dependencies": {
     "bootstrap": "^3.3.7",
     "mastercard-blockchain": "0.0.2",
+    "prop-types": "^15.6.0",
+    "proptypes": "^1.1.0",
     "react": "^16.0.0",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^16.0.0",
     "react-event-timeline": "^1.3.6",
     "react-native-gridview": "^0.1.1",
     "react-photo-gallery": "^6.0.15",
+    "react-router": "^4.2.0",
     "react-scripts": "1.0.14"
   },
   "scripts": {
