@@ -72,6 +72,12 @@ func postFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 func getFunc(w http.ResponseWriter, r *http.Request) {
+	if lastPost == nil {
+		lastPost = &PostRequest{
+			Id:  "hello",
+			Img: "world",
+		}
+	}
 	if lastPost != nil {
 		stuff, err := json.Marshal(lastPost)
 		if err != nil {
