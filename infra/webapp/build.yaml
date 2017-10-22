@@ -1,0 +1,78 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: webapp
+      build: webapp
+    name: node
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: node:latest
+      from:
+        kind: DockerImage
+        name: node:latest
+      generation: null
+      importPolicy: {}
+      name: latest
+      referencePolicy:
+        type: ""
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    labels:
+      app: webapp
+      build: webapp
+    name: webapp
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      app: webapp
+      build: webapp
+    name: webapp
+  spec:
+    nodeSelector: null
+    output:
+      to:
+        kind: ImageStreamTag
+        name: webapp:latest
+    postCommit: {}
+    resources: {}
+    runPolicy: Serial
+    source:
+      git:
+        uri: https://github.com/MakeCents-NYC/artland.git
+      sourceSecret:
+        name: github
+      type: Git
+    strategy:
+      dockerStrategy:
+        dockerfilePath: infra/webapp/Dockerfile
+        from:
+          kind: ImageStreamTag
+          name: node:latest
+      type: Docker
+    triggers:
+    - generic:
+        secret: J1FEYJnHulXYaNrf-q5X
+      type: Generic
+    - type: ConfigChange
+    - github:
+        secret: yV66kYw572weN3jajOfR
+      type: GitHub
+  status:
+    lastVersion: 0
+kind: List
+metadata: {}
