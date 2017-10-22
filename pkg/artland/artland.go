@@ -6,18 +6,32 @@ import (
 	"io"
 	"log"
 	"net/http"
+
+	"github.com/MakeCents-NYC/artland/pkg/mastercard"
 )
 
+var lastPost *PostRequest
+
 type Artland struct {
-	m *MasterCard
+	m *mastercard.MasterCard
 }
 
 func NewArtLand() *Artland {
-	return &Artland{}
+	_m, err := mastercard.NewMasterCardAPI("keystore.p12", "protos/artland.proto", "", "keyalias", "keystorepass")
+	if err != nil {
+		return nil
+	}
+
+	result := &Artland{
+		m: _m,
+	}
+
+	return result
 }
 
 func (al *Artland) Serve() error {
 	http.HandleFunc("/post", postFunc)
+	http.HandleFunc("/get", getFunc)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 
@@ -54,4 +68,20 @@ func postFunc(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	lastPost = result
+}
+
+func getFunc(w http.ResponseWriter, r *http.Request) {
+	if lastPost != nil {
+		stuff, err := json.Marshal(lastPost)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+
+		w.WriteHeader(201)
+
+		if _, err := w.Write(stuff); err != nil {
+			fmt.Println(err.Error())
+		}
+	}
 }

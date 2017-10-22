@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+// Trash
+
 var OAUTH_AUTHORIZATION string = "Authorization"
 var APP_ID string = "4127"
 var API_ENDPOINT string = "/labs/proxy/chain/api/v1/network/"
