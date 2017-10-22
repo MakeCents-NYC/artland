@@ -1,6 +1,7 @@
 FROM golang:latest
 
-COPY . /go/src/github.com/MakeCents-NYC/artland
+WORKDIR /go/src/github.com/MakeCents-NYC/artland
 COPY . .
 
-RUN go install /go/src/github.com/MakeCents-NYC/artland
+RUN go-wrapper download   # "go get -d -v ./..."
+RUN go-wrapper install    # "go install -v ./..."
