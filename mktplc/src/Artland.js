@@ -11,6 +11,7 @@ class Artland extends Component {
     }
   }
 
+
   componentDidMount() {
     fetch(urlForUsername(this.props.username))
       .then(response => {
