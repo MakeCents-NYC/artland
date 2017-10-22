@@ -25,14 +25,17 @@
 .navbar-brand {
   height: 80px;
 }
+
 .nav >li >a {
   padding-top: 30px;
   padding-bottom: 30px;
 }
+
 .navbar-toggle {
   padding: 10px;
   margin: 25px 15px 25px 0;
 }
+
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
