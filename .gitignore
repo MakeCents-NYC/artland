@@ -99,3 +99,11 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Node Modules
+/artland-web/node_modules
+
+# cert
+.p12
+
+server

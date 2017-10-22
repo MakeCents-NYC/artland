@@ -1,0 +1,66 @@
+
+syntax = "proto3";
+package 4127;
+
+// Initial art definition
+message Draft {
+	string uuid = 1;
+	string img_loc = 2; // could be on chain
+	bytes img_hash = 3;
+	bytes owner_pk = 4;
+}
+
+// Addons/studies/Layers/Materials/etc. to artwork 
+// over the course of it's creation.
+message Edit {
+	string uuid = 1;
+	string prev_hash = 2;
+	string img_loc = 3; // could be on chain
+	string img_hash = 4;
+	bytes owner_pk = 5;
+	bytes signature = 6;
+	string notes = 7;
+	repeated Material mats = 8;
+	bytes = hash_last_edit = 9;
+}
+
+
+// A material that has been added to the
+// art work.
+message Material {
+	string code = 1;
+	string cost = 2;
+	string medium = 3;
+}
+
+// Publishing the artwork by commiting to the last edit
+// You have made and locking in the name and artist.
+message Work {
+	string uuid = 1;
+	string name = 2;
+	string artist = 3;
+	stirng img_loc = 4; //could be on chain
+	string img_hash = 5;
+	bytes owner_pk = 6;
+	bytes signature = 7;
+	bytes hash_last_edit = 8;
+}
+
+// Transfer the ownership of the 
+//
+message Transaction {
+	bytes owner_pk = 1;
+	bytes recipient_pk = 2;
+	Work art = 3
+	bytes signature = 4;
+	Coordinate loc = 5;
+	// value?
+}
+
+
+// Coordinates 
+message Coordinate {
+	fixed32 lon = 1;
+	fixed32 lad = 2;
+}
+
