@@ -3,7 +3,6 @@ package artland
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 
@@ -44,29 +43,17 @@ type PostRequest struct {
 }
 
 func postFunc(w http.ResponseWriter, r *http.Request) {
-	body, err := r.GetBody()
-	if err != nil {
-		w.WriteHeader(401)
-		if _, err := w.Write([]byte("Bad body!")); err != nil {
-			fmt.Println(err.Error())
-		}
-	}
-
-	var data []byte
-	if _, err := io.ReadFull(body, data); err != nil {
-		w.WriteHeader(401)
-		if _, err := w.Write([]byte("Bad body!")); err != nil {
-			fmt.Println(err.Error())
-		}
-	}
-
 	var result *PostRequest
-	if err := json.Unmarshal(data, result); err != nil {
-		w.WriteHeader(401)
+	decoder := json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(result); err != nil {
+		w.WriteHeader(300)
 		if _, err := w.Write([]byte("Bad body!")); err != nil {
 			fmt.Println(err.Error())
 		}
 	}
+
+	defer r.Body.Close()
 
 	lastPost = result
 }
