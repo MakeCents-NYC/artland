@@ -1,5 +1,6 @@
-FROM golang
+FROM golang:latest
 
-ADD . /go/src/github.com/MakeCents-NYC/artland
+COPY . /go/src/github.com/MakeCents-NYC/artland
+COPY . .
 
-RUN go install github.com/MakeCents-NYC/artland
+RUN go install /go/src/github.com/MakeCents-NYC/artland
