@@ -18,7 +18,7 @@ type Artland struct {
 var a *Artland
 
 func NewArtLand() *Artland {
-	_m, err := mastercard.NewMasterCardAPI("keystore.p12", "protos/artland.proto", "", "keyalias", "keystorepass")
+	_m, err := mastercard.NewMasterCardAPI("/keystore.p12", "protos/artland.proto", "Nfo8owSgU8WmSOYuAmZmMWWY8GDTWKIf78mKGkYv9690e4ab!9bd5a371243f403cb2b455a2aedd58930000000000000000", "keyalias", "keystorepass")
 	if err != nil {
 		return nil
 	}

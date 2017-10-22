@@ -105,6 +105,9 @@ func (m *MasterCard) PostTransaction(thing *artland.PostRequest) error {
 	if _, err := io.WriteString(stdin, fmt.Sprintf("%s\n", thing.Id)); err != nil {
 		return err
 	}
+	if _, err := io.WriteString(stdin, fmt.Sprintf("%s\n", thing.Img)); err != nil {
+		return err
+	}
 
 	return nil
 }
