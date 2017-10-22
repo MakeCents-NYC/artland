@@ -29,8 +29,8 @@ func NewArtLand() *Artland {
 }
 
 func (al *Artland) Serve() error {
-	http.HandleFunc("/post", postFunc)
-	http.HandleFunc("/get", getFunc)
+	http.HandleFunc("/api/post", postFunc)
+	http.HandleFunc("/api/get", getFunc)
 
 	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
 
