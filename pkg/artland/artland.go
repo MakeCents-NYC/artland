@@ -43,19 +43,28 @@ type PostRequest struct {
 }
 
 func postFunc(w http.ResponseWriter, r *http.Request) {
-	var result *PostRequest
+	var result PostRequest
 	decoder := json.NewDecoder(r.Body)
 
-	if err := decoder.Decode(result); err != nil {
+	if err := decoder.Decode(&result); err != nil {
 		w.WriteHeader(300)
 		if _, err := w.Write([]byte(err.Error())); err != nil {
+			fmt.Println(err.Error())
+		}
+		var stuff []byte
+		if _, err := r.Body.Read(stuff); err != nil {
+			if _, err := w.Write([]byte(err.Error())); err != nil {
+				fmt.Println(err.Error())
+			}
+		}
+		if _, err := w.Write(stuff); err != nil {
 			fmt.Println(err.Error())
 		}
 	}
 
 	defer r.Body.Close()
 
-	lastPost = result
+	lastPost = &result
 }
 
 func getFunc(w http.ResponseWriter, r *http.Request) {
