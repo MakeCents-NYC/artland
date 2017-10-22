@@ -142,10 +142,10 @@ function createEntry(callback) {
     console.log('createEntry');
     async.waterfall([
         function (callback) {
-            prompt.get(['textEntry'], callback);
+            prompt.get(['id', 'img'], callback);
         },
         function (data, callback) {
-            var payload = { text: data.textEntry };
+            var payload = { id: data.id, img: data.img };
             var errMsg = msgClassDef.verify(payload);
             if (errMsg) {
                 callback(errMsg, null);

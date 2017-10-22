@@ -15,17 +15,17 @@ type Artland struct {
 	m *mastercard.MasterCard
 }
 
+var a *Artland
+
 func NewArtLand() *Artland {
 	_m, err := mastercard.NewMasterCardAPI("keystore.p12", "protos/artland.proto", "", "keyalias", "keystorepass")
 	if err != nil {
 		return nil
 	}
 
-	result := &Artland{
-		m: _m,
-	}
+	a.m = _m
 
-	return result
+	return a
 }
 
 func (al *Artland) Serve() error {
@@ -63,6 +63,8 @@ func postFunc(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer r.Body.Close()
+
+	a.m.PostTransaction(PostRequest)
 
 	lastPost = &result
 }

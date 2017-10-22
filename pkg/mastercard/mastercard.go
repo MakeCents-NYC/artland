@@ -5,6 +5,8 @@ import (
 	"io"
 	"os/exec"
 	"time"
+
+	"github.com/MakeCents-NYC/artland/pkg/artland"
 )
 
 // Trash
@@ -67,7 +69,7 @@ func (m *MasterCard) GetBlock(id string) error {
 	return nil
 }
 
-func (m *MasterCard) PostTransaction() error {
+func (m *MasterCard) PostTransaction(thing *artland.PostRequest) error {
 	//endpoint := fmt.Sprintf("%sentry", API_ENDPOINT)
 	subProcess := exec.Command("node", "util/app.js")
 
@@ -100,7 +102,7 @@ func (m *MasterCard) PostTransaction() error {
 	if _, err := io.WriteString(stdin, "2\n"); err != nil {
 		return err
 	}
-	if _, err := io.WriteString(stdin, fmt.Sprintf("%s\n", "TODO")); err != nil {
+	if _, err := io.WriteString(stdin, fmt.Sprintf("%s\n", thing.Id)); err != nil {
 		return err
 	}
 
