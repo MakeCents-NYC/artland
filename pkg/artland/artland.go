@@ -48,7 +48,7 @@ func postFunc(w http.ResponseWriter, r *http.Request) {
 
 	if err := decoder.Decode(result); err != nil {
 		w.WriteHeader(300)
-		if _, err := w.Write([]byte("Bad body!")); err != nil {
+		if _, err := w.Write([]byte(err.Error())); err != nil {
 			fmt.Println(err.Error())
 		}
 	}
@@ -65,16 +65,14 @@ func getFunc(w http.ResponseWriter, r *http.Request) {
 			Img: "world",
 		}
 	}
+
 	if lastPost != nil {
-		stuff, err := json.Marshal(lastPost)
+		encode := json.NewEncoder(w)
+		err := encode.Encode(lastPost)
 		if err != nil {
 			fmt.Println(err.Error())
 		}
 
-		w.WriteHeader(201)
-
-		if _, err := w.Write(stuff); err != nil {
-			fmt.Println(err.Error())
-		}
+		w.WriteHeader(200)
 	}
 }
