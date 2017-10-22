@@ -33,7 +33,7 @@ func (al *Artland) Serve() error {
 	http.HandleFunc("/post", postFunc)
 	http.HandleFunc("/get", getFunc)
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
 
 	return nil
 }
