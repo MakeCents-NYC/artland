@@ -1,12 +1,15 @@
 package artland
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 )
 
 type Artland struct {
+	m *MasterCard
 }
 
 func NewArtLand() *Artland {
@@ -14,43 +17,41 @@ func NewArtLand() *Artland {
 }
 
 func (al *Artland) Serve() error {
-	http.HandleFunc("/verify", verifyFunc)
-	http.HandleFunc("/login", loginFunc)
-	http.HandleFunc("/register", registerFunc)
 	http.HandleFunc("/post", postFunc)
-	http.HandleFunc("/buy", buyFunc)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
 
 	return nil
 }
 
-func verifyFunc(w http.ResponseWriter, r *http.Request) {
-	if _, err := w.Write([]byte("Hello World!")); err != nil {
-		fmt.Printf("Uh oh!")
-	}
-}
-
-func loginFunc(w http.ResponseWriter, r *http.Request) {
-	if _, err := w.Write([]byte("Hello World!")); err != nil {
-		fmt.Printf("Uh oh!")
-	}
-}
-
-func registerFunc(w http.ResponseWriter, r *http.Request) {
-	if _, err := w.Write([]byte("Hello World!")); err != nil {
-		fmt.Printf("Uh oh!")
-	}
+type PostRequest struct {
+	Id  string
+	Img string
 }
 
 func postFunc(w http.ResponseWriter, r *http.Request) {
-	if _, err := w.Write([]byte("Hello World!")); err != nil {
-		fmt.Printf("Uh oh!")
+	body, err := r.GetBody()
+	if err != nil {
+		w.WriteHeader(401)
+		if _, err := w.Write([]byte("Bad body!")); err != nil {
+			fmt.Println(err.Error())
+		}
 	}
-}
 
-func buyFunc(w http.ResponseWriter, r *http.Request) {
-	if _, err := w.Write([]byte("Hello World!")); err != nil {
-		fmt.Printf("Uh oh!")
+	var data []byte
+	if _, err := io.ReadFull(body, data); err != nil {
+		w.WriteHeader(401)
+		if _, err := w.Write([]byte("Bad body!")); err != nil {
+			fmt.Println(err.Error())
+		}
 	}
+
+	var result *PostRequest
+	if err := json.Unmarshal(data, result); err != nil {
+		w.WriteHeader(401)
+		if _, err := w.Write([]byte("Bad body!")); err != nil {
+			fmt.Println(err.Error())
+		}
+	}
+
 }
